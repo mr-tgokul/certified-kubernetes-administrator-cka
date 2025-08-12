@@ -1,0 +1,11 @@
+kubectl create -f example16.yaml
+kubectl get po 
+kubectl exec -it tomcat-hostpath -- /bin/sh
+kubectl delete pod tomcat-hostpath
+
+#Connect to the Host Node to find the Files there -  See Info Pic For More Info
+
+kubectl exec -it tomcat-hostpath -- /bin/sh
+kubectl create -f example16.yaml
+kubectl exec -it tomcat-hostpath -- /bin/sh
+history 
