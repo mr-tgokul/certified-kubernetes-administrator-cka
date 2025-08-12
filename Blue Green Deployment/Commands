@@ -1,0 +1,15 @@
+cat > example10.yaml
+kubectl apply -f example10.yaml
+kubectl get po -o wide 
+cat > example11.yaml
+kubectl create -f example11.yaml
+kubectl get svc 
+kubectl run tmp --image=alpine/curl:3.14 --restart=Never -it --rm -- curl -sI nginx.default.svc.cluster.local
+cat > example12.yaml
+kubectl create -f example12.yaml
+kubectl get po -o wide 
+cat > example13.yaml
+kubectl apply -f example13.yaml
+kubectl get svc
+kubectl run tmp --image=alpine/curl:3.14 --restart=Never -it --rm -- curl -sI nginx.default.svc.cluster.local
+history 
