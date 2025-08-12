@@ -1,0 +1,7 @@
+Create a new deployment web-003, scale this deployment to 3 replicas, make sure desired number of pods are always running.
+
+
+deploy a web-load-5461 pod using nginx:1.17 with the label set to tier=web
+
+
+Expose "audit-web-app" pod to by creating a service "audit-web-app-service" on port 30002 on nodes of given cluster.
