@@ -1,0 +1,24 @@
+cat > example5.yaml
+cat > example9.yaml
+kubectl create -f example5.yaml -f example9.yaml
+kubectl get po 
+kubectl get deploy 
+kubectl get svc 
+kubectl describe svc my-service 
+curl http://192.168.1.4:8080
+curl http://192.168.1.5:8080
+curl http://192.168.1.6:8080
+curl http://192.168.1.7:8080
+curl http://192.168.1.10:8080
+kubectl describe svc my-service 
+kubectl get nodes 
+kubectl get nodes -o wide 
+curl 172.30.1.2:31000
+curl 172.30.2.2:31000
+curl 172.30.3.2:31000
+curl 172.30.2.2:31000
+kubectl get nodes -o wide 
+kubectl describe svc my-service 
+curl 10.110.78.53:31000
+curl 10.110.78.53:8080
+curl 10.110.78.53:80
