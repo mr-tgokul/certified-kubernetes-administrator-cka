@@ -5,3 +5,46 @@ deploy a web-load-5461 pod using nginx:1.17 with the label set to tier=web
 
 
 Expose "audit-web-app" pod to by creating a service "audit-web-app-service" on port 30002 on nodes of given cluster.
+
+
+
+***********************************************************************************************************************************************************************
+
+
+deploy a simple application consisting of a main container and a sidecar container. The main container is a basic web server that generates a timestamped "hello world" message every 5 seconds and writes it to a file. The sidecar container is a log processor that reads this file and prints its contents to standard output. Both containers must share the same file using a directory on the host node.
+
+Requirements:
+
+Pod Configuration:
+
+Create a Pod named my-multicontainer-app.
+
+The Pod should have two containers: web-generator and log-reader.
+
+The Pod must have a shared volume named shared-data-volume.
+
+hostPath Volume:
+
+The shared-data-volume must be a hostPath volume.
+
+It should point to a directory on the host machine at /tmp/app-data.
+
+The hostPath volume must be configured with a type of DirectoryOrCreate to ensure the directory is created if it doesn't already exist on the host.
+
+Container Configuration:
+
+web-generator Container:
+
+Use the alpine image.
+
+The container's command should be a shell script that continuously echoes the current timestamp and a message to a file named output.log within the /data directory inside the container. An example command would be sh -c 'while true; do echo "$(date): Hello from the web-generator!" >> /data/output.log; sleep 5; done'.
+
+Mount the shared-data-volume to the /data directory inside this container.
+
+log-reader Container:
+
+Use the alpine image.
+
+The container's command should be tail -f /data/output.log to continuously read the file as it's being written.
+
+Mount the shared-data-volume to the /data directory inside this container.
