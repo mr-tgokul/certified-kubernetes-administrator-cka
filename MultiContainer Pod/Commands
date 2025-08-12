@@ -1,0 +1,14 @@
+cat > example17.yaml
+kubectl create -f example17.yaml
+kubectl get po 
+
+# Login into the producer container
+kubectl exec -it --container=producer multicontainer-pod -- /bin/bash
+cd /var/log/
+Verify files are being generated
+
+
+# Login into the Consumer container
+kubectl exec -it --container=consumer  multicontainer-pod -- /bin/bash
+cd /usr/share/nginx/html/
+Verify files are being here
