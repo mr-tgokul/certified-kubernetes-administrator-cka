@@ -1,0 +1,20 @@
+cat > example14.yaml
+kubectl create -f example14.yaml
+cat > example14.yaml
+kubectl create -f example14.yaml
+kubectl apply -f example14.yaml
+kubectl delete -f example14.yaml 
+kubectl apply -f example14.yaml
+kubectl get po 
+kubectl exec -it tomcat-pod -- /bin/sh   
+ 
+# Login into the container and browse to cd /oracle-cache/ and create empty files   ### See Runtime Info Image for More information
+
+kubectl delete pod tomcat-pod 
+kubectl apply -f example14.yaml
+kubectl exec -it tomcat-pod -- /bin/sh
+
+# After recreating the Pod the files wont be there as its a Temp Storage
+
+
+history 
