@@ -1,0 +1,3 @@
+Create a pod called pod-multi with 2 containers as it is descripted below:
+   Container 1 : name:container1, image: nginx 
+   Container 2 : name:container2, image: busybox, command: sleep 4800
