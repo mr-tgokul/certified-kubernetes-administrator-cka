@@ -1,0 +1,7 @@
+Create a Deployment named nginx-blue with 3 replicas. The Pod template of the Deployment should use container image nginx:1.23.0 and assign the label version=blue.
+Expose the Deployment with a Service of type ClusterIP named nginx. Map the incoming and outgoing port to 80. Select the Pod with label version=blue.
+Run a temporary Pod with the container image alpine/curl:3.14 to make a call against the Service using curl.
+Create a second Deployment named nginx-green with 3 replicas. The Pod template of the Deployment should use container image nginx:1.23.4 and assign the label version=green.
+Change the Service's label selection so that traffic will be routed to the Pods controlled by the Deployment nginx-green.
+Delete the Deployment named nginx-blue.
+Run a temporary Pod with the container image alpine/curl:3.14 to make a call against the Service.
