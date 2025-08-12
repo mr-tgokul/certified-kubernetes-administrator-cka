@@ -1,0 +1,18 @@
+cat > example8.yaml
+   kubectl create -f example8.yaml
+    kubectl get deploy 
+    kubectl set image deployment/nginx nginx=nginx:1.23.4
+    kubectl rollout history deployment nginx
+    kubectl get deploy 
+   kubectl get deploy --revision=2
+   kubectl rollout history deployment nginx --revision=2
+   kubectl annotate deployment nginx kubernetes.io/change-cause="Pick up patch version"
+   kubectl rollout history deployment nginx
+   kubectl scale deployment nginx --replicas=5
+   kubectl get deploy 
+   kubectl get po -o wide 
+   kubectl rollout undo deployment/nginx --to-revision=1
+   kubectl rollout history deployment nginx
+   kubectl rollout history deployment nginx --revision=3
+   kubectl get deploy 
+   kubectl get deploy -o wide
