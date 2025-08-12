@@ -48,3 +48,7 @@ Use the alpine image.
 The container's command should be tail -f /data/output.log to continuously read the file as it's being written.
 
 Mount the shared-data-volume to the /data directory inside this container.
+
+
+
+***********************************************************************************************************************************************************************************************************
