@@ -1,0 +1,11 @@
+STATEFULSETS
+
+cat > example31.yaml
+kubectl create -f example31.yaml
+kubectl get po -o wide 
+kubectl get pv 
+kubectl get pvc
+kubectl delete pod myredis-1
+kubectl get po -o wide 
+kubectl get pvc
+history 
