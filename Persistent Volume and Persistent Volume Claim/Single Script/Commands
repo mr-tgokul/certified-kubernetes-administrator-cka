@@ -1,0 +1,11 @@
+cat > per.yaml
+kubectl create -f per.yaml 
+kubectl get po -o wide
+kubectl exec -it pv-pod -- /bin/sh    
+
+# Login and create few files
+cd test-pv
+
+kubectl get nodes
+ssh node01
+browse to cd /mnt/data/
