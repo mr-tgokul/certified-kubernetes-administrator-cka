@@ -1,0 +1,18 @@
+Create Two files with the following Info
+
+File 1 Name : application1.properties 
+
+
+management.endpoints.enabled-by-default=true 
+management.endpoint.info.enabled=true 
+management.security.enabled=false 
+management.endpoints.web.exposure.include=*
+
+
+File 2 Name : application2.properties
+
+
+server.port= 9000
+server.servlet.context-path=/oracle 
+oracleprops.greeting= Thank you and visit again - altered 
+oracleprops.greeting1= New Data
