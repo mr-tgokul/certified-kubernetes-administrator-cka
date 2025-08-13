@@ -1,1 +1,7 @@
+Once those two properties files are created
 
+cat > application1.properties
+cat > application2.properties
+kubectl create configmap my-config-map --from-literal=key1=value1 --from-literal=key2=value2
+kubectl create configmap my-config-map1 --from-file=./application1.properties --from-file=./application2.properties
+kubectl get cmOnce those two properties files are created
