@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: kube-pv
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /mnt/data # Make sure this folder exists on the node
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: kube-pv1
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  selector:
+    matchLabels:
+      type: local
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pv-pod
+  labels:
+    app: pv-pod
+spec:
+  containers:
+    - name: pv-container
+      image: nginx
+      volumeMounts:
+        - mountPath: /test-pv
+          name: pv-volume
+      ports:
+        - containerPort: 80
+  volumes:
+    - name: pv-volume
+      persistentVolumeClaim:
+        claimName: kube-pv1 # Matches the PVC name above
