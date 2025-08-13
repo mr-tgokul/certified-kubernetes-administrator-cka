@@ -52,3 +52,42 @@ Mount the shared-data-volume to the /data directory inside this container.
 
 
 ***********************************************************************************************************************************************************************************************************
+
+Create a persistent volume with given specifications:
+  Volume Name - pv-rnd
+  storage - 100Mi
+  Access modes - ReadWriteMany
+  host path - /pv/host-data-rnd
+ 
+
+*************************************************************************************************************************************************************************************************
+
+Craete a PersistentVolume, PersistentVolumeClaim and Pod with below specifications
+
+  PV - name : mypvl , Size: 100Mi, AccessModes: ReadWritemany, Hostpath: /pv/log, Reclaim Policy: Retain
+  PVC - name:  pv-claim-l, Storage request: 50Mi, Access Modes: ReadWritemany 
+  Pod - name : my-nginx-pod, image Name: nginx, Volume: PersistentVolumeClaim: pv-claim-l, volume mount : /log
+   
+*************************************************************************************************************************************************************************************************
+
+
+We have worker 3 nodes in our cluster, create a DaemonSet (name prod-pod, image=nginx) on each node except worker node8.
+ 
+
+*************************************************************************************************************************************************************************************************
+
+Create a Pod named nginx in the namespace h92. Its container should run the container image nginx:1.21.6.
+Define a Volume of type emptyDir named nginx-run which mounts the path /var/run to the container.
+Define a Volume of type emptyDir named nginx-cache which mounts the path /var/cache/nginx to the container.
+Define a Volume of type emptyDir named nginx-data which mounts the path /usr/local/nginx to the container.
+(Optional) Say you would want to ensure the nginx can only write to those Volume mount paths but not the container's temporary file system. How do you prevent this from being allowed?
+
+
+*************************************************************************************************************************************************************************************************
+
+Create a PersistentVolume named pv, access mode ReadWriteMany, 512Mi of storage capacity and the host path /data/config.
+Create a PersistentVolumeClaim named pvc. The claim should request 256Mi and use an empty string value for the storage class. Ensure that the PersistentVolumeClaim is properly bound after its creation.
+Mount the PersistentVolumeClaim from a new Pod named app with the path /var/app/config. The Pod uses the image nginx:1.21.6.
+Open an interactive shell to the Pod and create a file in the directory /var/app/config.
+
+*************************************************************************************************************************************************************************************************
