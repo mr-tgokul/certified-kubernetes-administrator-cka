@@ -1,0 +1,12 @@
+cat > example1.yaml
+cat > example17.yaml
+kubectl create -f example1.yaml -f example17.yaml 
+kubectl get po 
+kubectl logs tomcat-pod 
+kubectl logs multicontainer-pod -c consumer 
+kubectl logs multicontainer-pod -c producer 
+kubectl logs tomcat-pod --tail=2
+kubectl logs tomcat-pod --tail=5
+kubectl logs --limit-bytes=100 tomcat-pod
+kubectl logs --limit-bytes=1000 tomcat-pod
+history
