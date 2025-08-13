@@ -1,0 +1,12 @@
+cat > example20.yaml
+cat > example21.yaml
+cat > example22.yaml
+kubectl create -f example20.yaml
+kubectl get pv 
+kubectl create -f example21.yaml
+kubectl get pvc
+kubectl get pv 
+kubectl create -f example22.yaml
+kubectl get po -o wide 
+kubectl exec -it pv-pod -- /bin/sh 
+history 
