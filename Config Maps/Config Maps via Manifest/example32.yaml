@@ -1,0 +1,36 @@
+# Create Config Maps via Manifest
+
+# Config Map Manifest
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: myconfig
+data:
+  db_url: jdbc:mysql://localhost:3306/mydb
+  db_user: admin
+  db_password: password123
+  db_port: "3306"
+  db_name: mydatabase
+  db_driver: com.mysql.jdbc.Driver
+
+  service-details: |
+    serviceName: myservice
+    servicePort: "8080"
+    serviceType: NodePort
+    serviceSelector: app=myapp
+
+  css-properties: |
+    body {
+      background-color: #fefefe;
+      color: #333;
+    }
+
+    h1 {
+      font-size: 24px;
+      color: #007bff;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.5;
+    }
