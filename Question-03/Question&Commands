@@ -1,0 +1,27 @@
+Create static pod on node07 called static-nginx with image nginx and you have to make sure that it is recreated/restarted automatically in case of any failure happens.
+
+
+CONTROL PLANE
+
+ps -ef | grep kubelet 
+sudo grep static /var/lib/kubelet/config.yaml
+ls /etc/kubernetes/manifests/
+kubectl run static-nginx --image=nginx --dry-run=client -o yaml 
+kubectl run static-nginx --image=nginx --dry-run=client -o yaml > static-pod.yaml
+cat static-pod.yaml | ssh node01 "tee static-pod.yaml"
+kubectl get po 
+kubectl get po -o wide 
+kubectl delete pod static-nginx-node01
+kubectl get po -o wide 
+history 
+
+
+ssh node01
+
+WORKER NODE 
+
+ps -ef | grep kubelet 
+sudo grep static /var/lib/kubelet/config.yaml
+sudo cp static-pod.yaml /etc/kubernetes/manifests/
+ls /etc/kubernetes/manifests/
+history 
