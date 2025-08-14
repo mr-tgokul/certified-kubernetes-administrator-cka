@@ -1,0 +1,13 @@
+cat > example44.yaml
+kubectl create ns rq-demo
+kubectl create -f example44.yaml --namespace=rq-demo
+kubectl describe quota --namespace=rq-demo
+kubectl describe quota
+kubectl describe quota --namespace=rq-demo
+cat > example45.yaml
+kubectl create -f example45.yaml --namespace=rq-demo
+cat > example45.yaml
+kubectl create -f example45.yaml --namespace=rq-demo
+history 
+kubectl describe quota --namespace=rq-demo
+history 
