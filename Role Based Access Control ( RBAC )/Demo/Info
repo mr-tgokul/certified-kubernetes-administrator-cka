@@ -1,1 +1,11 @@
-
+Create Namespace
+Create Private key
+Create CSR Request with all the details
+Export the Contents of the CSR and Copy and paste it in the CSR Request Script
+Run the Script
+Approve CSR
+Create Roles using Script
+List Roles in NEC Namespace
+Create Role Binding using Script
+List Pods in Default NS - it should block as we have access only on NEC namespace
+List Pods in NEC namespace
