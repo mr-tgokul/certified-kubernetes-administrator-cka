@@ -1,0 +1,10 @@
+A new application finance-audit-pod is deployed in finance namespace. Find out what is wrong with it and fix the issue. 
+NOTE: No configuration changes allowed, you can only delete or recreate the pod.
+Below command will create a scenario for us:
+  
+ g create ns finance  ; g run  finance-audit-pod --image=busybox -n finance --command sleeo 180
+
+
+CORRECTED 
+
+ g create ns finance  ; g run  finance-audit-pod --image=busybox -n finance --command sleep 180
