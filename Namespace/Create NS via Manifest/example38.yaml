@@ -1,0 +1,11 @@
+# Create NS vis Manifest
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: my-ns1
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: my-ns2
