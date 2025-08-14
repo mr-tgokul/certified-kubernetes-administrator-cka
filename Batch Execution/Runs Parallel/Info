@@ -1,0 +1,7 @@
+Kubernetes creates 2 pods at the same time (because parallelism = 2).
+
+Each pod runs the counting script once.
+
+When a pod finishes, Kubernetes starts another until 10 total completions are achieved.
+
+The job then marks itself as Completed.
