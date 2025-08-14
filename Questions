@@ -91,3 +91,23 @@ Mount the PersistentVolumeClaim from a new Pod named app with the path /var/app/
 Open an interactive shell to the Pod and create a file in the directory /var/app/config.
 
 *************************************************************************************************************************************************************************************************
+
+Create three different Pods with the names frontend, backend and database that use the image nginx:1.25.5-alpine. For convenience, you can use the file pods.yaml to create the Pods.
+Declare labels for those Pods, as follows:
+
+	frontend: env=prod, team=shiny
+	backend: env=prod, team=legacy, app=v1.2.4
+	database: env=prod, team=storage
+
+Declare annotations for those Pods, as follows:
+	
+	frontend: contact=John Doe, commit=2d3mg3
+	backend: contact=Mary Harris
+
+Render the list of all Pods and their labels.
+Use label selectors on the command line to query for all production Pods that belong to the teams shiny and legacy.
+Remove the label env from the backend Pod and rerun the selection.
+Render the surrounding 3 lines of YAML of all Pods that have annotations.
+
+
+*************************************************************************************************************************************************************************************************
