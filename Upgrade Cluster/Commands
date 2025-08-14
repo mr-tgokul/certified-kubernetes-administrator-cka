@@ -1,0 +1,32 @@
+IN CONTROLPLANE
+
+ kubectl drain controlplane --ignore-daemonsets
+apt-cache madison kubeadm | head 
+sudo apt install kubeadm=1.33.4-1.1
+sudo kubeadm upgrade apply v1.33.4
+sudo apt install kubelet=1.33.4-1.1
+sudo systemctl restart kubelet
+kubectl uncordon controlplane
+kubectl get nodes 
+
+
+kubectl drain node01 --ignore-daemonsets
+kubectl get nodes 
+
+
+IN NODE01
+
+sudo apt update 
+sudo apt install kubeadm=1.33.4-1.1
+sudo kubeadm upgrade node 
+sudo apt install kublet=1.33.4-1.1
+sudo apt install kubelet=1.33.4-1.1
+ sudo systemctl restart kubelet 
+
+
+   
+CONTROLPLANE 
+
+kubectl get nodes 
+kubectl uncordon node01
+kubectl get nodes
