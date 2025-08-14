@@ -1,1 +1,12 @@
+Namespaces:
+•	Used for logical grouping of resources
+•	Divide a isolated subclusters we use namespace
+•	Allows to organize group of resources like pod, 
+•	Namespaces are the foundation of Role based access
+•	resource quota applies per namespace
+•	predefined name spaces are available – kube-system , kube-public
 
+
+Two ways to create Namespace
+•	command 
+•	Manifest
