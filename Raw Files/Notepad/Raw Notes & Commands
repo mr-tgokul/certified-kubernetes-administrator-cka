@@ -1,0 +1,1035 @@
+example1
+ 4  cat > example1.yaml
+    5  ls
+    6  kubectl create -f example1.yaml
+    7  kubectl get pod s
+    8  kubectl get pods
+    9  kubectl get po 
+   10  kubectl get po -o wide 
+   11  kubectl get nodes 
+   12  kubectl describe pod tomcat-pod 
+   13  kubectl get po -o wide 
+   14  ping 192.168.1.4
+   15  kubectl exec -it tomcat-pod -- /bin/sh 
+   16  kubectl delete pod tomcat-pod 
+   17  kubectl get po 
+   18  history 
+
+
+
+
+Create a new pod called admin-pod with image busybox. Allow it to be able to set system_time. Container should sleep for 3200 seconds.
+
+example2
+
+ 19  alias g=kubectl 
+   20  g run admin-pod --image=busybox --command sleep 3200 --dry-run=client
+   21  g run admin-pod --image=busybox --command sleep 3200 --dry-run=client -o yaml 
+   22  g run admin-pod --image=busybox --command sleep 3200 --dry-run=client -o yaml | tee example2.yaml
+   23  kubectl create -f example2.yaml
+   24  kubectl get po 
+   25  kubectl get po -o wide 
+
+
+
+
+
+
+
+
+REPLICATION CONTROLLER
+
+
+  4  cat > example3.yaml
+    5  kubectl create -f example3.yaml
+    6  kubectl get po -o wide 
+    7  kubectl describe rc tomcat-rc 
+    8  kubectl scale rc tomcat-rc --replicas=9
+    9  kubectl get po -o wide 
+   10  kubectl scale rc tomcat-rc --replicas=3
+   11  kubectl get po -o wide 
+   12  kubectl delete rc tomcat-rc 
+   13  kubectl delete -f example3.yaml
+   14  history 
+
+
+
+
+
+ 4  kubectl run tomcat-pod1 --image=vishymails/tomcatimage:1.0 --labels=app=tomcat-app --dry-run=client
+    5  kubectl run tomcat-pod1 --image=vishymails/tomcatimage:1.0 --labels=app=tomcat-app --dry-run=client -o yaml
+    6  kubectl run tomcat-pod1 --image=vishymails/tomcatimage:1.0 --labels=app=tomcat-app
+    7  kubectl run tomcat-pod2 --image=vishymails/tomcatimage:1.0 --labels=app=tomcat-app
+    8  kubectl run tomcat-pod3 --image=vishymails/tomcatimage:1.0 --labels=app=tomcat-app
+    9  kubectl run tomcat-pod4 --image=vishymails/tomcatimage:1.0 --labels=app=tomcat-app
+   10  kubectl get po 
+   11  cat > example3.yaml
+   12  kubectl create -f example3.yaml
+   13  kubectl get po 
+   14  kubectl get rc 
+   15  kubectl describe rc tomcat-rc 
+   16  kubectl delete pod tomcat-pod3
+   17  kubectl get po 
+   18  kubectl delete rc tomcat-rc 
+   19  kubectl get po 
+   20  kubectl create -f example3.yaml
+   21  kubectl get po 
+   22  kubectl describe rc tomcat-rc 
+   23  history 
+
+
+
+
+
+replica sets 
+
+
+
+  24  kubectl delete -f example3.yaml
+   25  cat > example4.yaml
+   26  kubectl create -f example4.yaml
+   27  kubectl get po 
+   28  kubectl create -f example3.yaml
+   29  kubectl get po 
+   30  kubectl get po -l tier=frontend
+   31  kubectl get rs 
+   32  kubectl describe rs tomcat-rs 
+   33  kubectl scale rs tomcat-rs --replicas=9
+   34  kubectl get po -l tier=frontend
+   35  kubectl scale rs tomcat-rs --replicas=3
+   36  kubectl get po -l tier=frontend
+   37  kubectl delete rs tomcat-rs 
+   38  history 
+
+
+
+
+Create a replicaset (name : web-replica, image=nginx, replicas=3), there is already a pod running in our cluster.
+
+
+
+
+
+
+Deployment 
+
+
+ 4  cat > example5.yaml
+    5  kubectl create -f example5.yaml
+    6  kubectl get po 
+    7  kubectl get po -o wide 
+    8  kubectl get rs 
+    9  kubectl describe deploy tomcat-deploy 
+   10  history 
+
+
+
+ROLLOUT 
+
+ 11  kubectl get deploy -o wide 
+   12  kubectl get po 
+   13  kubectl set image deploy tomcat-deploy tomcat-container=nginx:1.9.1
+   14  kubectl rollout status deployment/tomcat-deploy 
+   15  kubectl get deploy -o wide 
+   16  kubectl get po 
+   17  history 
+
+
+ROLLBACK 
+
+
+ 18  kubectl set image deploy tomcat-deploy tomcat-container=nginnnx:1.25 --record 
+  19  kubectl rollout status deployment/tomcat-deploy
+
+
+
+
+
+
+ 3  kubectl rollout history deployment/tomcat-deploy
+    4  kubectl get deploy -o wide 
+    5  kubectl rollout undo deployment/tomcat-deploy
+    6  kubectl get deploy -o wide 
+    7  kubectl scale deployment tomcat-deploy --replicas=9
+    8  kubectl get deploy -o wide 
+    9  kubectl scale deployment tomcat-deploy --replicas=2
+   10  kubectl get deploy -o wide 
+   11  kubectl delete deploy tomcat-deploy 
+
+
+
+
+Create a new deployment called web-proj-268 with image nginx:1.16 and one replica. Next, upgrade the deployment to version 1.17 using rolling update. - MAKE SURE YOU RECORD the changes
+
+
+
+
+Create a Deployment named nginx with 3 replicas. The Pods should use the nginx:1.23.0 image and the name nginx. The Deployment uses the label tier=backend. The Pod template should use the label app=v1.
+List the Deployment and ensure that the correct number of replicas is running.
+Update the image to nginx:1.23.4.
+Verify that the change has been rolled out to all replicas.
+Assign the change cause "Pick up patch version" to the revision.
+Scale the Deployment to 5 replicas.
+Have a look at the Deployment rollout history.
+Revert the Deployment to revision 1.
+Ensure that the Pods use the image nginx:1.23.0.
+(Optional) Discuss: Can you foresee potential issues with a rolling deployment? How do you configure a update process that first kills all existing containers with the current version before it starts containers with the new version?
+
+
+
+ 4  cat > example8.yaml
+    5  kubectl create -f example8.yaml
+    6  kubectl get deploy 
+    7  kubectl set image deployment/nginx nginx=nginx:1.23.4
+    8  kubectl rollout history deployment nginx
+    9  kubectl get deploy 
+   10  kubectl get deploy --revision=2
+   11  kubectl rollout history deployment nginx --revision=2
+   12  kubectl annotate deployment nginx kubernetes.io/change-cause="Pick up patch version"
+   13  kubectl rollout history deployment nginx
+   14  kubectl scale deployment nginx --replicas=5
+   15  kubectl get deploy 
+   16  kubectl get po -o wide 
+   17  kubectl rollout undo deployment/nginx --to-revision=1
+   18  kubectl rollout history deployment nginx
+   19  kubectl rollout history deployment nginx --revision=3
+   20  kubectl get deploy 
+   21  kubectl get deploy -o wide 
+
+
+
+
+
+
+SERVICES 
+
+
+ 4  cat > example5.yaml
+    5  cat > example9.yaml
+    6  kubectl create -f example5.yaml -f example9.yaml
+    7  kubectl get po 
+    8  kubectl get deploy 
+    9  kubectk get svc 
+   10  kubectl get svc 
+   11  kubectl describe svc my-service 
+   12  curl http://192.168.1.4:8080
+   13  curl http://192.168.1.5:8080
+   14  curl http://192.168.1.6:8080
+   15  curl http://192.168.1.7:8080
+   16  curl http://192.168.1.10:8080
+   17  kubectl describe svc my-service 
+   18  kubectl get nodes 
+   19  kubectl get nodes -o wide 
+   20  curl 172.30.1.2:31000
+   21  curl 172.30.2.2:31000
+   22  curl 172.30.3.2:31000
+   23  curl 172.30.2.2:31000
+   24  kubectl get nodes -o wide 
+   25  kubectl describe svc my-service 
+   26  curl 10.110.78.53:31000
+   27  curl 10.110.78.53:8080
+   28  curl 10.110.78.53:80
+
+
+
+Create a Deployment named nginx-blue with 3 replicas. The Pod template of the Deployment should use container image nginx:1.23.0 and assign the label version=blue.
+Expose the Deployment with a Service of type ClusterIP named nginx. Map the incoming and outgoing port to 80. Select the Pod with label version=blue.
+Run a temporary Pod with the container image alpine/curl:3.14 to make a call against the Service using curl.
+Create a second Deployment named nginx-green with 3 replicas. The Pod template of the Deployment should use container image nginx:1.23.4 and assign the label version=green.
+Change the Service's label selection so that traffic will be routed to the Pods controlled by the Deployment nginx-green.
+Delete the Deployment named nginx-blue.
+Run a temporary Pod with the container image alpine/curl:3.14 to make a call against the Service.
+
+
+4  cat > example10.yaml
+    5  kubectl apply -f example10.yaml
+    6  kubectl get po -o wide 
+    7  cat > example11.yaml
+    8  kubectl create -f example11.yaml
+    9  kubectl get svc 
+   10  kubectl run tmp --image=alpine/curl:3.14 --restart=Never -it --rm -- curl -sI nginx.default.svc.cluster.local
+   11  cat > example12.yaml
+   12  kubectl create -f example12.yaml
+   13  kubectl get po -o wide 
+   14  cat > example13.yaml
+   15  kubectl apply -f example13.yaml
+   16  kubectl get svc
+   17  kubectl run tmp --image=alpine/curl:3.14 --restart=Never -it --rm -- curl -sI nginx.default.svc.cluster.local
+   18  history 
+
+
+
+
+
+Create a new deployment web-003, scale this deployment to 3 replicas, make sure desired number of pods are always running.
+
+
+deploy a web-load-5461 pod using nginx:1.17 with the label set to tier=web
+
+
+Expose "audit-web-app" pod to by creating a service "audit-web-app-service" on port 30002 on nodes of given cluster.
+
+
+
+
+
+ephemeral volumes
+
+
+  4  cat > example14.yaml
+    5  kubectl create -f example14.yaml
+    6  cat > example14.yaml
+    7  kubectl create -f example14.yaml
+    8  kubectl apply -f example14.yaml
+    9  kubectl delete -f example14.yaml 
+   10  kubectl apply -f example14.yaml
+   11  kubectl get po 
+   12  kubectl exec -it tomcat-pod -- /bin/sh
+   13  kubectl delete pod tomcat-pod 
+
+
+volumes
+
+
+
+ 18  cat > example15.yaml
+   19  kubectl create -f example15.yaml
+   20  kubectl exec -it tomcat-pod -- /bin/sh
+   21  kubectl get po 
+   22  kubectl describe tomcat-pod 
+   23  kubectl describe pod tomcat-pod 
+   24  kubectl get po 
+   25  cat > example16.yaml
+   26  kubectl create -f example16.yaml
+   27  kubectl get po 
+   28  kubectl exec -it tomcat-hostpath -- /bin/sh
+   29  kubectl delete pod tomcat-hostpath
+   30  kubectl exec -it tomcat-hostpath -- /bin/sh
+   31  kubectl create -f example16.yaml
+   32  kubectl exec -it tomcat-hostpath -- /bin/sh
+   33  history 
+   14  kubectl apply -f example14.yaml
+   15  kubectl exec -it tomcat-pod -- /bin/sh
+   16  history 
+
+
+
+
+multi container pod 
+
+
+ 4  cat > example17.yaml
+    5  kubectl create -f example17.yaml
+    6  kubectl get po 
+    7  kubectl exec -it multicontainer-pod -- /bin/bash
+    8  kubectl exec -it --container=producer multicontainer-pod -- /bin/bash
+
+
+
+
+
+
+
+
+
+Create a pod called pod-multi with 2 containers as it is descripted below:
+   Container 1 : name:container1, image: nginx 
+   Container 2 : name:container2, image: busybox, command: sleep 4800
+   
+
+
+
+
+
+
+
+
+
+
+deploy a simple application consisting of a main container and a sidecar container. The main container is a basic web server that generates a timestamped "hello world" message every 5 seconds and writes it to a file. The sidecar container is a log processor that reads this file and prints its contents to standard output. Both containers must share the same file using a directory on the host node.
+
+Requirements:
+
+Pod Configuration:
+
+Create a Pod named my-multicontainer-app.
+
+The Pod should have two containers: web-generator and log-reader.
+
+The Pod must have a shared volume named shared-data-volume.
+
+hostPath Volume:
+
+The shared-data-volume must be a hostPath volume.
+
+It should point to a directory on the host machine at /tmp/app-data.
+
+The hostPath volume must be configured with a type of DirectoryOrCreate to ensure the directory is created if it doesn't already exist on the host.
+
+Container Configuration:
+
+web-generator Container:
+
+Use the alpine image.
+
+The container's command should be a shell script that continuously echoes the current timestamp and a message to a file named output.log within the /data directory inside the container. An example command would be sh -c 'while true; do echo "$(date): Hello from the web-generator!" >> /data/output.log; sleep 5; done'.
+
+Mount the shared-data-volume to the /data directory inside this container.
+
+log-reader Container:
+
+Use the alpine image.
+
+The container's command should be tail -f /data/output.log to continuously read the file as it's being written.
+
+Mount the shared-data-volume to the /data directory inside this container.
+
+
+
+
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-multicontainer-app
+spec:
+  volumes:
+    - name: shared-data-volume
+      hostPath:
+        path: /tmp/app-data
+        type: DirectoryOrCreate
+  containers:
+    - name: web-generator
+      image: alpine
+      command: ["sh", "-c", "while true; do echo \"$(date): Hello from the web-generator!\" >> /data/output.log; sleep 5; done"]
+      volumeMounts:
+        - name: shared-data-volume
+          mountPath: /data
+    - name: log-reader
+      image: alpine
+      command: ["tail", "-f", "/data/output.log"]
+      volumeMounts:
+        - name: shared-data-volume
+          mountPath: /data
+
+
+
+
+
+PV PVC AND POD 
+
+
+ 4  cat > example20.yaml
+    5  cat > example21.yaml
+    6  cat > example22.yaml
+    7  kubectl create -f example20.yaml
+    8  kubectl get pv 
+    9  kubectl create -f example21.yaml
+   10  kubectl get pvc
+   11  kubectl get pv 
+   12  kubectl create -f example22.yaml
+   13  kubectl get po -o wide 
+   14  kubectl exec -it pv-pod -- /bin/sh 
+   15  history 
+
+
+
+
+
+
+
+Create a persistent volume with given specifications:
+  Volume Name - pv-rnd
+  storage - 100Mi
+  Access modes - ReadWriteMany
+  host path - /pv/host-data-rnd
+ 
+
+
+
+
+Craete a PersistentVolume, PersistentVolumeClaim and Pod with below specifications
+
+  PV - name : mypvl , Size: 100Mi, AccessModes: ReadWritemany, Hostpath: /pv/log, Reclaim Policy: Retain
+  PVC - name:  pv-claim-l, Storage request: 50Mi, Access Modes: ReadWritemany 
+  Pod - name : my-nginx-pod, image Name: nginx, Volume: PersistentVolumeClaim: pv-claim-l, volume mount : /log
+  
+ 
+
+
+
+We have worker 3 nodes in our cluster, create a DaemonSet (name prod-pod, image=nginx) on each node except worker node8.
+ 
+
+
+
+
+Create a Pod named nginx in the namespace h92. Its container should run the container image nginx:1.21.6.
+Define a Volume of type emptyDir named nginx-run which mounts the path /var/run to the container.
+Define a Volume of type emptyDir named nginx-cache which mounts the path /var/cache/nginx to the container.
+Define a Volume of type emptyDir named nginx-data which mounts the path /usr/local/nginx to the container.
+(Optional) Say you would want to ensure the nginx can only write to those Volume mount paths but not the container's temporary file system. How do you prevent this from being allowed?
+
+
+
+
+
+Create a PersistentVolume named pv, access mode ReadWriteMany, 512Mi of storage capacity and the host path /data/config.
+Create a PersistentVolumeClaim named pvc. The claim should request 256Mi and use an empty string value for the storage class. Ensure that the PersistentVolumeClaim is properly bound after its creation.
+Mount the PersistentVolumeClaim from a new Pod named app with the path /var/app/config. The Pod uses the image nginx:1.21.6.
+Open an interactive shell to the Pod and create a file in the directory /var/app/config.
+
+
+
+SECRETS
+
+
+echo -n 'admin' | base64 > username.txt 
+    5  echo -n "password123' | base64 > password.txt
+    6  echo -n "password123" | base64 > password.txt
+    7  cat username.txt
+    8  cat password.txt
+    9  kubectl get secrets 
+   10  kubectl create secret generic db-user-pass --from-file=./username.txt --from-file=./password.txt
+   11  kubectl get secrets 
+   12  kubectl describe secrets db-user-pass
+   13  cat > example28.yaml
+
+
+
+
+ 4  cat > example28.yaml
+    5  kubectl create -f example28.yaml 
+    6  cat > example29.yaml
+    7  kubectl create -f example29.yaml
+    8  kubectl get po 
+    9  kubectl exec -it mysecretpod -- /bin/bash 
+   10  cat > example30.yaml
+   11  kubectl create -f example30.yaml 
+   12  kubectl get po
+   13  kubectl exec -it mysecret-env-pod -- /bin/bash 
+
+
+
+
+
+   14  kubectl create -f example28.yaml
+   15  kubectl get secrets 
+   16  history 
+
+
+
+
+Create static pod on node07 called static-nginx with image nginx and you have to make sure that it is recreated/restarted automatically in case of any failure happens.
+
+
+CONTROL PLANE
+
+4  ps -ef | grep kubelet 
+    5  sudo grep static /var/lib/kubelet/config.yaml
+    6  ls /etc/kubernetes/manifests/
+    7  kubectl run static-nginx --image=nginx --dry-run=client -o yaml 
+    8  kubectl run static-nginx --image=nginx --dry-run=client -o yaml > static-pod.yaml
+    9  cat static-pod.yaml | ssh node01 "tee static-pod.yaml"
+   
+
+ssh node01
+
+WORKER NODE 
+
+ 4  ps -ef | grep kubelet 
+    5  sudo grep static /var/lib/kubelet/config.yaml
+    6  sudo cp static-pod.yaml /etc/kubernetes/manifests/
+    7  ls /etc/kubernetes/manifests/
+    8  history 
+
+
+CONTROLPLANE
+
+10  kubectl get po 
+   11  kubectl get po -o wide 
+   12  kubectl delete pod static-nginx-node01
+   13  kubectl get po -o wide 
+   14  history 
+
+
+
+
+
+
+STATEFULSETS
+
+ 4  cat > example31.yaml
+    5  kubectl create -f example31.yaml
+    6  kubectl get po -o wide 
+    7  kubectl get pv 
+    8  kubectl get pvc
+    9  kubectl delete pod myredis-1
+   10  kubectl get po -o wide 
+   11  kubectl get pvc
+   12  history 
+
+
+
+
+
+application1.properties 
+
+
+management.endpoints.enabled-by-default=true 
+management.endpoint.info.enabled=true 
+management.security.enabled=false 
+management.endpoints.web.exposure.include=*
+
+
+
+
+
+application2.properties
+
+
+server.port= 9000
+server.servlet.context-path=/oracle 
+oracleprops.greeting= Thank you and visit again - altered 
+oracleprops.greeting1= New Data
+
+
+
+CONFIGMAP 
+
+ 21  cat > application1.properties
+   22  cat > application2.properties
+   23  kubectl create configmap my-config-map --from-literal=key1=value1 --from-literal=key2=value2
+   24  kubectl create configmap my-config-map1 --from-file=./application1.properties --from-file=./application2.properties
+   25  kubectl get cm
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myconfig-env-pod
+
+spec:
+  containers:
+    - name: myconfig-env-pod-container
+      image: redis
+      env:
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: myconfig
+              key: db_name
+
+  restartPolicy: Never
+
+
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myconfig-env-pod
+
+spec:
+  containers:
+    - name: myconfig-env-pod-container
+      image: redis
+      envFrom:
+        - configMapRef:
+            name: myconfig
+
+  restartPolicy: Never
+
+
+
+
+
+
+
+
+LOGS 
+
+
+ 14  cat > example1.yaml
+   15  cat > example17.yaml
+   16  kubectl create -f example1.yaml -f example17.yaml 
+   17  kubectl get po 
+   18  kubectl logs tomcat-pod 
+   19  kubectl logs multicontainer-pod -c consumer 
+   20  kubectl logs multicontainer-pod -c producer 
+   21  kubectl logs tomcat-pod --tail=2
+   22  kubectl logs tomcat-pod --tail=5
+   23  kubectl logs --limit-bytes=100 tomcat-pod
+   26  kubectl logs --limit-bytes=1000 tomcat-pod
+   27  history 
+
+
+
+
+
+
+JOBS 
+
+ 4  cat > example34.yaml
+    5  kubectl create -f example34.yaml 
+    6  cat > example34.yaml
+    7  kubectl create -f example34.yaml 
+    8  cat > example34.yaml
+    9  kubectl create -f example34.yaml 
+   10  kubectl get jobs 
+   11  kubectl get po 
+   12  kubectl get jobs 
+   13  kubectl get po 
+   14  kubectl delete -f example34.yaml 
+   15  cat > example35.yaml
+   16  kubectl create -f example35.yaml 
+   17  kubectl get po -o wide 
+   18  kubectl get jobs 
+   19  kubectl get po -o wide 
+   20  kubectl get jobs 
+   21  cat > example36.yaml
+   22  kubectl create -f example36.yaml 
+   23  cat > example36.yaml
+   24  kubectl create -f example36.yaml 
+   25  kubectl get po 
+   26  history 
+
+
+
+NAMESPACE
+
+4  kubectl get ns
+    5  kubectl create namespace cka
+    6  kubectl get ns
+    7  cat > example38.yaml
+    8  kubectl create -f example38.yaml
+    9  kubectl get ns
+
+
+
+
+ 4  cat > example38.yaml
+    5  kubectl create -f example38.yaml
+    6  kubectl get ns 
+    7  kubectl run nginx1 --image=nginx
+    8  kubectl run nginx1 --image=nginx --namespace=my-ns1
+    9  kubectl run tomcat1 --image=vishymails/tomcatimage:1.0
+   10  kubectl get po 
+   11  kubectl get po --namespace=my-ns1
+   12  cat > example39.yaml
+   13  kubectl create -f example39.yaml
+   14  kubectl get po --namespace=my-ns1
+   15  kubectl get po 
+   16  kubectl get po --namespace=my-ns1
+   17  kubectl config set-context --current --namespace=my-ns1
+   18  kubectl get po
+   19  kubectl api-resources 
+   20  kubectl api-resources --namespaced=true
+   21  kubectl api-resources --namespaced=flase
+   22  kubectl api-resources --namespaced=false
+   23  kubectl get po 
+   24  kubectl get po --all-namesapces
+   25  kubectl get po --all-namespaces
+   26  kubectl get deployments  --all-namespaces
+   27  history 
+
+
+
+
+
+
+INIT CONTAINERS
+
+ 4  cat > example40.yaml
+    5  kubectl create -f example40.yaml 
+    6  kubectl get po -o wide 
+    7  kubectl describe init-container-demo 
+    8  kubectl describe pod  init-container-demo 
+    9  kubectl logs init-container-demo -c init-container-ubuntu
+   10  kubectl logs init-container-demo -c init-container-centos
+   11  kubectl logs init-container-demo -c init-container-nginx
+   12  history 
+controlplane:~$ 
+
+
+
+
+
+
+Create three different Pods with the names frontend, backend and database that use the image nginx:1.25.5-alpine. For convenience, you can use the file pods.yaml to create the Pods.
+Declare labels for those Pods, as follows:
+
+	frontend: env=prod, team=shiny
+	backend: env=prod, team=legacy, app=v1.2.4
+	database: env=prod, team=storage
+
+Declare annotations for those Pods, as follows:
+	
+	frontend: contact=John Doe, commit=2d3mg3
+	backend: contact=Mary Harris
+
+Render the list of all Pods and their labels.
+Use label selectors on the command line to query for all production Pods that belong to the teams shiny and legacy.
+Remove the label env from the backend Pod and rerun the selection.
+Render the surrounding 3 lines of YAML of all Pods that have annotations.
+
+
+
+
+
+
+Create a user “nec-adm". Grant nec-adm access to cluster, should have permissions to create, list, get, update, and delete pods in nec namespace 
+ Private key exist in location:  /vagrant/nec-adm.key and csr at /vagrant/nec-adm.csr
+   
+
+
+
+ 4  kubectl create ns nec 
+    5  openssl genrsa -out nec-adm.key 2048
+    6  ls
+    7  openssl req -new -key nec-adm.key -out nec-adm.csr
+    8  ls
+    9  cat nec-adm.csr | base64 | tr -d "\n"
+   10  cat > example41.yaml
+   11  kubectl create -f example41.yaml 
+   12  kubectl get csr 
+   13  kubectl certificate approve nec-adm
+   14  kubectl get csr 
+   15  cat > example42.yaml
+   16  kubectl create -f example42.yaml 
+   17  kubectl get roles
+   18  kubectl get role
+   19  kubectl get roles
+   20  kubectl get roles -n nec
+   21  cat > example43.yaml
+   22  kubectl create -f example43.yaml
+   23  kubectl get rolebindings -n nec
+   24  kubectl get pods --as nec-adm
+   25  kubectl get pods -n nec --as nec-adm
+   26  kubectl auth can-i get pods -n nec --as nec-adm
+   27  kubectl auth can-i get pods -n default --as nec-adm
+   28  kubectl auth can-i delete pods -n default --as nec-adm
+   29  kubectl auth can-i delete pods -n nec --as nec-adm
+   30  history 
+
+
+
+
+apiVersion : certificates.k8s.io/v1
+kind : CertificateSigningRequest
+metadata :
+  name : nec-adm
+spec :
+  request : <YOUR CSR DATA>
+  signerName : kubernetes.io/kube-apiserver-client
+  usages : 
+    - client auth
+
+    
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: nec
+  name: pod-admin
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["pods"]
+  verbs: ["get", "update", "list","watch", "create", "delete"]
+
+  
+
+
+
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata :
+  name : admin-pods 
+  namespace : nec
+subjects :
+  - kind : User 
+    name : nec-adm
+    apiGroup : rbac.authorization.k8s.io
+roleRef :
+  kind : Role
+  name : pod-admin
+  apiGroup : rbac.authorization.k8s.io
+
+  
+
+
+
+
+
+
+Create a new Pod that exceeds the limits of the resource quota requirements e.g. by defining 1Gi of memory but stays below the CPU e.g. 0.5. Write down the error message.
+Change the request limits to fulfill the requirements to ensure that the Pod could be created successfully. Write down the output of the command that renders the used amount of resources for the namespace.
+
+
+
+
+
+4  cat > example44.yaml
+    5  kubectl create ns rq-demo
+    6  kubectl create -f example44.yaml --namespace=rq-demo
+    7  kubectl describe quota --namespace=rq-demo
+    8  kubectl describe quota
+    9  kubectl describe quota --namespace=rq-demo
+   10  cat > example45.yaml
+   11  kubectl create -f example45.yaml --namespace=rq-demo
+   12  cat > example45.yaml
+   13  kubectl create -f example45.yaml --namespace=rq-demo
+   14  history 
+   15  kubectl describe quota --namespace=rq-demo
+   16  history 
+
+
+
+
+
+
+Upgrade given cluster (master and worker node) from 1.24.8-00 to 1.28.4-00. Make sure to first drain respective node prior to update 
+and make it available post update.
+
+
+IN CONTROLPLANE
+
+ 4  kubectl get nodes 
+    5  sudo apt update
+
+  6  kubectl drain controlplane --ignore-daemonsets
+    7  apt-cache madison kubeadm | head 
+    8  sudo apt install kubeadm=1.33.4-1.1
+    9  sudo kubeadm upgrade apply v1.33.4
+   10  sudo apt install kubelet=1.33.4-1.1
+   11  sudo systemctl restart kubelet
+   12  kubectl uncordon controlplane
+   13  kubectl get nodes 
+
+
+
+
+ 15  kubectl drain node01 --ignore-daemonsets
+   16  kubectl get nodes 
+
+
+
+
+IN NODE01
+
+   3  sudo apt update 
+    4  sudo apt install kubeadm=1.33.4-1.1
+    5  sudo kubeadm upgrade node 
+
+    7  sudo apt install kubelet=1.33.4-1.1
+    8  sudo systemctl restart kubelet 
+
+
+   
+CONTROLPLANE 
+
+
+ 18  kubectl get nodes 
+   19  kubectl uncordon node01
+   20  kubectl get nodes 
+
+
+
+
+ 
+Create a pod called delta-pod in defence namespace belonging to the development environment (env=dev)  and frontend tier (tier=front), image: nginx:1.17
+
+
+
+
+Get web-load-5461 pod details in json format and store it in a file at /opt/output/web-load-5461-j070822n.json
+ 
+
+ 22  cat > example1.yaml
+   23  kubectl create -f example1.yaml
+   24  kubectl get po 
+   25  cd /
+   26  cd opt
+   27  mkdir output 
+   28  cd ..
+   29  kubectl get pods tomcat-pod -o json | sudo tee /opt/output/tomcat-pod.json
+   30  sudo cat /opt/output/tomcat-pod.json 
+   31  history 
+
+
+
+
+
+Backup ETCD database and save it root with name of backup "etcd-backup.db"
+ 
+
+4  kubectl get pods -A 
+    5  kubectl get pods -A | grep etcd
+    6  kubectl describe pod etcd-controlplane -n kube-system | grep -A20 -i command 
+    7  ETCDCTL_API=3 etcdctl --endpoints=https://127.0.0.1:2379   --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/server.crt --key=/etc/kubernetes/pki/etcd/server.key   snapshot save /root/etcd-backup.db
+    8  cd /root
+    9  ls
+
+
+
+
+
+
+
+
+
+restore 
+
+etcdctl --data-dir <data-dir> snapshot restore etcd-backup.db
+
+
+
+
+ troubleshooting skills by inspecting a misconfigured Pod.
+
+Create a new Pod from the YAML manifest in the file pod.yaml.
+Check the Pod's status. Do you see any issue?
+Render the logs of the running container and identify an issue.
+Shell into the container. Can you verify the issue based on the rendered log message?
+Suggest solutions that can fix the root cause of the issue.
+
+
+
+pod.yaml
+--------
+apiVersion: v1
+kind: Pod
+metadata:
+  name: date-recorder
+spec:
+  containers:
+  - name: debian
+    image: gcr.io/distroless/nodejs20-debian11
+    command: ["/nodejs/bin/node", "-e", "const fs = require('fs'); let timestamp = Date.now(); fs.writeFile('/root/tmp/startup-marker.txt', timestamp.toString(), err => { if (err) { console.error(err); } while(true) {} });"]
+
+
+
+
+
+
+
+
+corrected pod.yaml 
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: date-recorder
+spec:
+  containers:
+  - name: debian
+    image: gcr.io/distroless/nodejs20-debian11
+    command: ["/nodejs/bin/node", "-e", "const fs = require('fs'); let timestamp = Date.now(); fs.writeFile('/var/startup/startup-marker.txt', timestamp.toString(), err => { if (err) { console.error(err); } while(true) {} });"]
+    volumeMounts:
+    - mountPath: /var/startup
+      name: init-volume
+  volumes:
+  - name: init-volume
+    emptyDir: {}
