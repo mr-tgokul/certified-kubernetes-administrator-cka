@@ -1,0 +1,4 @@
+cat > example38.yaml
+kubectl create -f example38.yaml 
+kubectl get ns
+history
