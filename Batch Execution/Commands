@@ -1,0 +1,23 @@
+cat > example34.yaml
+kubectl create -f example34.yaml 
+cat > example34.yaml
+kubectl create -f example34.yaml 
+cat > example34.yaml
+kubectl create -f example34.yaml 
+kubectl get jobs 
+kubectl get po 
+kubectl get jobs 
+kubectl get po 
+kubectl delete -f example34.yaml 
+cat > example35.yaml
+kubectl create -f example35.yaml 
+kubectl get po -o wide 
+kubectl get jobs 
+kubectl get po -o wide 
+kubectl get jobs 
+cat > example36.yaml
+kubectl create -f example36.yaml 
+cat > example36.yaml
+kubectl create -f example36.yaml 
+kubectl get po 
+history
