@@ -1,0 +1,10 @@
+cat > example1.yaml
+kubectl create -f example1.yaml
+kubectl get po 
+cd /
+cd opt
+mkdir output 
+cd ..
+ kubectl get pods tomcat-pod -o json | sudo tee /opt/output/tomcat-pod.json
+sudo cat /opt/output/tomcat-pod.json 
+history
