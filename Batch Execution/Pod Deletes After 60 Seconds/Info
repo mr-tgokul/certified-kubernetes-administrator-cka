@@ -1,0 +1,1 @@
+In this example the Pod gets deleted after 60 seconds once the Job is completed
