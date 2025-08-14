@@ -1,0 +1,2 @@
+Upgrade given cluster (master and worker node) from 1.24.8-00 to 1.28.4-00. Make sure to first drain respective node prior to update 
+and make it available post update.
