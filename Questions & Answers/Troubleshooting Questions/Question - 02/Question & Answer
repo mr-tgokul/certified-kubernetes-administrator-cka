@@ -1,0 +1,72 @@
+Create the objects from the YAML manifest setup.yaml.
+Inspect the objects in the namespace y72.
+Create a temporary Pod using the image busybox in the namespace y72. The container command should make a wget call to the Service web-app. The wget will not be able to establish a successful connection to the Service.
+Identify the root cause for the connection issue and fix it. Verify the correct behavior by repeating the previous step. The wget call should return a sucessful response.
+
+
+
+setup.yaml
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: y72
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+  namespace: y72
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web-app
+  template:
+    metadata:
+      labels:
+        app: web-app
+    spec:
+      containers:
+      - image: bmuschko/nodejs-hello-world:1.0.0
+        name: web-app
+        ports:
+        - containerPort: 3000
+          protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-app
+  namespace: y72
+spec:
+  type: ClusterIP
+  selector:
+    run: myapp
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 3001
+
+
+
+
+
+
+cat > setup.yaml
+kubectl apply -f setup.yaml
+kubectl get all -n y72
+kubectl run tmp --image=busybox --restart=Never -it --rm -n y72 -- wget web-app 
+kubectl get endpoints -n y72 
+kubectl describe service web-app -n y72 
+kubectl get endpoints -n y72
+kubectl delete svc web-app -n y72
+kubectl create -f updated_service.yaml 
+kubectl get endpoints -n y72
+kubectl run tmp --image=busybox --restart=Never -it --rm -n y72 -- wget web-app 
+kubectl describe service web-app -n y72 
+kubectl delete svc web-app -n y72
+ kubectl create -f updated_service.yaml 
+kubectl describe service web-app -n y72 
+kubectl run tmp --image=busybox --restart=Never -it --rm -n y72 -- wget web-app 
+history
