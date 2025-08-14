@@ -1,6 +1,8 @@
 IN CONTROLPLANE
 
- kubectl drain controlplane --ignore-daemonsets
+kubectl get nodes 
+sudo apt update
+kubectl drain controlplane --ignore-daemonsets
 apt-cache madison kubeadm | head 
 sudo apt install kubeadm=1.33.4-1.1
 sudo kubeadm upgrade apply v1.33.4
