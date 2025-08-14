@@ -1,0 +1,10 @@
+# Create Secrets from Manifest File
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysecret
+type: Opaque
+data:
+  username: YWRtaW4=
+  password: cGFzc3dvcmQxMjM=

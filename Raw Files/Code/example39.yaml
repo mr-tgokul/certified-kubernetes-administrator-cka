@@ -1,0 +1,13 @@
+# Create Pod in Custom NameSpace
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tomcat-pod
+  namespace: my-ns1
+  labels:
+    app: tomcat
+    tier: dev
+spec:
+  containers:
+    - name: tomcat-container
+      image: vishymails/tomcatimage:1.0

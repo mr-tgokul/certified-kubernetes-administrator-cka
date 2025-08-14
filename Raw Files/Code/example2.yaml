@@ -1,0 +1,21 @@
+#Create a new pod called admin-pod with image busybox. Allow it to be able to set system_time.
+#Container should sleep for 3200 seconds.
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: admin-pod
+  name: admin-pod
+spec:
+  containers:
+    - command:
+        - sleep
+        - "3200"
+      image: busybox
+      name: admin-pod
+      securityContext:
+        capabilities:
+          add:
+            - NET_ADMIN
+            - SYS_TIME

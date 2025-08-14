@@ -1,0 +1,21 @@
+# Cron Job - Runs Every Minute
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cron-demo
+spec:
+  schedule: "*/1 * * * *" # Every minute
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: cron-demo
+              image: centos:7
+              args:
+                - python
+                - -c
+                - |
+                  import datetime
+                  print("Cron Demo - Current time is: ", datetime.datetime.now())
+          restartPolicy: Never

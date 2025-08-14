@@ -1,0 +1,18 @@
+# Pod Stays Active After Job Completed
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: counting-job
+spec:
+  template:
+    metadata:
+      name: counting-job
+    spec:
+      containers:
+        - name: count
+          image: centos:7
+          command:
+            - /bin/sh
+            - -c
+            - "for i in $(seq 1 10); do echo count: $i; sleep 1; done"
+      restartPolicy: Never

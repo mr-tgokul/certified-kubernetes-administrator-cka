@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-multicontainer-app
+spec:
+  volumes:
+    - name: shared-data-volume
+      hostPath:
+        path: /tmp/app-data
+        type: DirectoryOrCreate
+  containers:
+    - name: web-generator
+      image: alpine
+      command:
+        [
+          "sh",
+          "-c",
+          'while true; do echo "$(date): Hello from the web-generator!" >> /data/output.log; sleep 5; done',
+        ]
+      volumeMounts:
+        - name: shared-data-volume
+          mountPath: /data
+    - name: log-reader
+      image: alpine
+      command: ["tail", "-f", "/data/output.log"]
+      volumeMounts:
+        - name: shared-data-volume
+          mountPath: /data

@@ -1,0 +1,19 @@
+# Ephemeral Storage
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tomcat-pod
+
+spec:
+  containers:
+    - image: vishymails/tomcatimage:1.0
+      name: tomcat-container
+      ports:
+        - containerPort: 8080
+      volumeMounts:
+        - name: cache-volume
+          mountPath: /oracle-cache
+
+  volumes:
+    - name: cache-volume
+      emptyDir: {} # Occupies Full Cache Space

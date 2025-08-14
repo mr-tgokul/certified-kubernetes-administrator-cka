@@ -1,0 +1,20 @@
+# Host Path Storage - Permanent
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tomcat-hostpath
+
+spec:
+  containers:
+    - image: vishymails/tomcatimage:1.0
+      name: tomcat-container
+      ports:
+        - containerPort: 8080
+      volumeMounts:
+        - name: test-vol
+          mountPath: /oracle-volume
+
+  volumes:
+    - name: test-vol
+      hostPath:
+        path: /test-vol
