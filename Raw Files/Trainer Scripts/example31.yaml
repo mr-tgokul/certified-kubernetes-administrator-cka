@@ -1,0 +1,33 @@
+apiVersion : apps/v1
+kind : StatefulSet
+metadata :
+  name : myredis
+spec :
+  replicas : 3
+  serviceName : myredis
+  selector :
+    matchLabels :
+      app : redis
+  template :
+    metadata :
+      labels :
+        app : redis
+    spec :
+      containers :
+        - name : redis
+          image : redis:latest
+          ports :
+            - containerPort : 6379
+          volumeMounts :
+            - name : myredis-data
+              mountPath : /data
+  volumeClaimTemplates :
+    - metadata :
+        name : myredis-data
+      spec :
+        accessModes :
+          - ReadWriteOnce
+        resources :
+          requests :
+            storage : 1Gi
+       

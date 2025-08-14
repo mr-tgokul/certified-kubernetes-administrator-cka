@@ -1,0 +1,24 @@
+apiVersion : v1
+kind : Pod
+metadata :
+  name : init-container-demo
+spec :
+  containers :
+    - name : tomcat-container
+      image : vishymails/tomcatimage:1.0
+      ports :
+        - containerPort : 8080
+  
+  initContainers :
+    - name : init-container-ubuntu
+      image : ubuntu
+      command : ["sh", "-c", "echo Hello from the init container 1"]
+
+    - name : init-container-centos
+      image : centos:7
+      command : ["sh", "-c", "echo Hello from the init container 2"]
+    
+    - name : init-container-nginx
+      image : nginx
+      command : ["sh", "-c", "echo Hello from the init container 3"]
+    

@@ -1,0 +1,21 @@
+apiVersion: v1
+kind : Pod
+metadata :
+  name : mysecretpod
+  labels :
+    name : mysecretpod
+spec :
+  containers :
+    - name : mysecretpod
+      image : redis
+      volumeMounts :
+        - name : mysecretvolume
+          mountPath : /etc/secret
+          readOnly : true
+
+
+  volumes :
+    - name : mysecretvolume
+      secret :
+        secretName : mysecret
+

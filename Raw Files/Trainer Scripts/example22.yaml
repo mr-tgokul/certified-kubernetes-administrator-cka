@@ -1,0 +1,22 @@
+apiVersion : v1
+kind : Pod
+metadata :
+  name : pv-pod
+  labels :
+    app : pv-pod
+spec :
+  containers :
+    - name : pv-container
+      image : nginx
+      volumeMounts :
+        - mountPath : /test-pv
+          name : pv-volume
+      ports :
+        - containerPort : 80  
+
+  volumes :
+    - name : pv-volume
+      persistentVolumeClaim :
+        claimName : kube-pvc
+
+        

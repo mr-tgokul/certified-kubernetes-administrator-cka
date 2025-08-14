@@ -1,0 +1,20 @@
+apiVersion : v1
+kind: Pod
+metadata :
+  name : myconfigpod
+  labels :
+    name : myconfigpod
+spec :
+  containers :
+    - name : myconfigcontainer
+      image : redis
+      volumeMounts :
+        - name : myconfigvolume
+          mountPath : /etc/config
+          readOnly : true
+
+  volumes :
+    - name : myconfigvolume
+      configMap :
+        name : myconfig
+        

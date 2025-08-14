@@ -1,0 +1,15 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata :
+  name : admin-pods 
+  namespace : nec
+subjects :
+  - kind : User 
+    name : nec-adm
+    apiGroup : rbac.authorization.k8s.io
+roleRef :
+  kind : Role
+  name : pod-admin
+  apiGroup : rbac.authorization.k8s.io
+
+  
