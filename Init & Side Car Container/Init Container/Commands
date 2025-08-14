@@ -1,0 +1,9 @@
+4  cat > example40.yaml
+    5  kubectl create -f example40.yaml 
+    6  kubectl get po -o wide 
+    7  kubectl describe init-container-demo 
+    8  kubectl describe pod  init-container-demo 
+    9  kubectl logs init-container-demo -c init-container-ubuntu
+   10  kubectl logs init-container-demo -c init-container-centos
+   11  kubectl logs init-container-demo -c init-container-nginx
+   12  history
