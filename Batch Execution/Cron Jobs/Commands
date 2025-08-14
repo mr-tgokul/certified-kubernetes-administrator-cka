@@ -1,0 +1,7 @@
+kubectl create -f example37.yaml 
+kubectl get jobs
+kubectl get cronjobs
+kubectl get po
+kubectl get jobs
+kubectl get po
+history
