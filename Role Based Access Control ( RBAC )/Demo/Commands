@@ -1,0 +1,27 @@
+kubectl create ns nec 
+openssl genrsa -out nec-adm.key 2048
+ls
+openssl req -new -key nec-adm.key -out nec-adm.csr
+ls
+cat nec-adm.csr | base64 | tr -d "\n"
+cat > example41.yaml
+kubectl create -f example41.yaml 
+kubectl get csr 
+kubectl certificate approve nec-adm
+kubectl get csr 
+cat > example42.yaml
+kubectl create -f example42.yaml 
+kubectl get roles
+kubectl get role
+kubectl get roles
+kubectl get roles -n nec
+cat > example43.yaml
+kubectl create -f example43.yaml
+kubectl get rolebindings -n nec
+kubectl get pods --as nec-adm
+kubectl get pods -n nec --as nec-adm
+kubectl auth can-i get pods -n nec --as nec-adm
+kubectl auth can-i get pods -n default --as nec-adm
+kubectl auth can-i delete pods -n default --as nec-adm
+kubectl auth can-i delete pods -n nec --as nec-adm
+history
