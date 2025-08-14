@@ -1,1 +1,6 @@
 
+kubectl get namesapce
+   37  kubectl get ns
+   38  kubectl create namespace cka
+   39  kubectl get ns
+   40  history
