@@ -11,9 +11,6 @@ kubectl certificate approve nec-adm
 kubectl get csr 
 cat > example42.yaml
 kubectl create -f example42.yaml 
-kubectl get roles
-kubectl get role
-kubectl get roles
 kubectl get roles -n nec
 cat > example43.yaml
 kubectl create -f example43.yaml
@@ -24,4 +21,3 @@ kubectl auth can-i get pods -n nec --as nec-adm
 kubectl auth can-i get pods -n default --as nec-adm
 kubectl auth can-i delete pods -n default --as nec-adm
 kubectl auth can-i delete pods -n nec --as nec-adm
-history
