@@ -1,0 +1,1 @@
+Backup ETCD database and save it root with name of backup "etcd-backup.db"
