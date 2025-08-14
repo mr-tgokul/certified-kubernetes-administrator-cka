@@ -1,5 +1,8 @@
-* 
-* 
-* 
-* 
-* 
+Here, each * (star) means “every possible value” for that time unit.
+
+Position	Field	Meaning	Example Value
+1	Minute	0–59	5 → at 5th minute
+2	Hour	0–23	14 → 2 PM
+3	Day of Month	1–31	10 → on the 10th
+4	Month	1–12 or JAN–DEC	6 → June
+5	Day of Week	0–6 (Sun=0 or 7)	1 → Monday
